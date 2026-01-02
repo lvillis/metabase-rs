@@ -1,6 +1,6 @@
 [package]
 name = "metabase"
-version = "0.1.0"
+version = "0.1.1"
 description = "Ergonomic Rust SDK for Metabase's HTTP API, with async and blocking clients."
 edition = "2024"
 rust-version = "1.92.0"
