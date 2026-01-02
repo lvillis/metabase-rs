@@ -1,0 +1,100 @@
+[package]
+name = "metabase"
+version = "0.1.0"
+description = "Ergonomic Rust SDK for Metabase's HTTP API, with async and blocking clients."
+edition = "2024"
+rust-version = "1.92.0"
+publish = true
+readme = "README.md"
+license = "MIT"
+repository = "https://github.com/lvillis/metabase-rs"
+homepage = "https://github.com/lvillis/metabase-rs"
+documentation = "https://docs.rs/metabase"
+keywords = ["metabase", "sdk", "api"]
+categories = ["api-bindings", "web-programming::http-client"]
+include = [
+    "src/**",
+    "tests/**",
+    "examples/**",
+    "README.md",
+    "CHANGELOG.md",
+    "Cargo.toml",
+    "LICENSE",
+]
+
+[package.metadata.docs.rs]
+all-features = true
+
+[workspace]
+resolver = "3"
+
+[workspace.dependencies]
+fastrand = { version = "2.3.0", default-features = false, features = ["std"] }
+http = { version = "1.4.0", default-features = false, features = ["std"] }
+httpdate = { version = "1.0.3", default-features = false }
+metrics = { version = "0.24.3", default-features = false }
+reqwest = { version = "0.13.1", default-features = false, features = ["json", "multipart", "rustls-no-provider"] }
+rustls = { version = "0.23.35", default-features = false, features = ["ring", "std", "tls12"] }
+secrecy = { version = "0.10.3", default-features = false, features = ["serde"] }
+serde = { version = "1.0.228", default-features = false, features = ["derive"] }
+serde_json = { version = "1.0.148", default-features = false, features = ["std"] }
+serde_path_to_error = { version = "0.1.20", default-features = false }
+thiserror = { version = "2.0.17", default-features = false, features = ["std"] }
+tokio = { version = "1.48.0", default-features = false, features = ["macros", "rt-multi-thread", "time"] }
+tracing = { version = "0.1.44", default-features = false, features = ["std"] }
+ureq = { version = "3.1.4", default-features = false, features = ["rustls-no-provider", "json", "multipart"] }
+url = { version = "2.5.7", default-features = false, features = ["std"] }
+wiremock = { version = "0.6.5", default-features = false }
+
+[workspace.lints.rust]
+unsafe_code = "forbid"
+
+[workspace.lints.clippy]
+dbg_macro = "deny"
+expect_used = "deny"
+panic = "deny"
+result_large_err = "allow"
+todo = "deny"
+unimplemented = "deny"
+unwrap_used = "deny"
+
+[lints]
+workspace = true
+
+[features]
+default = ["async", "rustls"]
+
+# Core modes
+async = ["dep:reqwest", "dep:tokio", "rustls"]
+blocking = ["dep:ureq", "rustls"]
+
+# TLS selection
+rustls = ["dep:rustls"]
+
+# Observability
+metrics = ["dep:metrics"]
+tracing = ["dep:tracing"]
+
+# Test helpers
+mock = ["dep:wiremock"]
+
+# Optional escape hatch
+unstable-raw = []
+
+[dependencies]
+fastrand = { workspace = true }
+http = { workspace = true }
+httpdate = { workspace = true }
+metrics = { workspace = true, optional = true }
+reqwest = { workspace = true, optional = true }
+rustls = { workspace = true, optional = true }
+secrecy = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+serde_path_to_error = { workspace = true }
+thiserror = { workspace = true }
+tokio = { workspace = true, optional = true }
+tracing = { workspace = true, optional = true }
+ureq = { workspace = true, optional = true }
+url = { workspace = true }
+wiremock = { workspace = true, optional = true }
